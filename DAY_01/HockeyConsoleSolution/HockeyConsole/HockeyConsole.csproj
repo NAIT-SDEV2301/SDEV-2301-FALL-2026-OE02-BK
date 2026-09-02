@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="C:\drive_D\NAIT\2026\Fall 2026\SDEV2301\SDEV2301_Fall2026_Git_BK\SDEV-2301-FALL-2026-OE02-BK\DAY_01\Day_01_HockeyConsoleSolution.cs" Link="Day_01_HockeyConsoleSolution.cs" />
+  </ItemGroup>
+
+</Project>
