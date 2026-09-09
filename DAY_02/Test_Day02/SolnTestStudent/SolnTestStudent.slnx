@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="TestControlStructures/TestControlStructures.csproj" Id="c397642e-0ce7-48ef-bf3e-253b97aee7d4" />
   <Project Path="TestStudent/TestStudent.csproj" />
+  <Project Path="Test_Methods/Test_Methods.csproj" Id="41b1edab-1fe9-406a-b7b9-a5475f651dc0" />
 </Solution>
