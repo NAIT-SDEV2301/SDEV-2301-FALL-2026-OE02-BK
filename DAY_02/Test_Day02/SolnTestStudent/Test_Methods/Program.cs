@@ -21,7 +21,8 @@ namespace Test_Methods
 
             int resultAddition = AddNumbers(7, 8);
             Console.WriteLine($" MAIN Addition of 7 + 8 is : {resultAddition}");
-            AddNumbers(7, 8);
+            AddNumbers(7, 8); // arguments
+            
 
             Console.WriteLine("Enter Course details");
             Console.WriteLine("Enter Course ID");
@@ -30,6 +31,7 @@ namespace Test_Methods
             cName = Console.ReadLine();
 
             CourseDetail( cCode, cName);
+            CourseDetail(cName, cCode);
         }
 
     
@@ -55,7 +57,8 @@ namespace Test_Methods
 
         // Example methods with return type
 
-        static int AddNumbers(int a, int b) {
+        static int AddNumbers(int a, int b)// parameters  
+        {
 
             int c = a + b;
             Console.WriteLine($" WITHIN METHOD Addition of 7 + 8 is :{c}");
@@ -66,10 +69,19 @@ namespace Test_Methods
         static void CourseDetail(int code, string courseName)
         {
 
-            
+            Console.WriteLine("======COURSE DETAIL A ==========");
             Console.WriteLine($" Course Code is :{code}");
             Console.WriteLine($" Course Name is :{courseName}");
             
+        }
+
+        static void CourseDetail( string courseName, int code)
+        {
+
+            Console.WriteLine("======COURSE DETAIL B ==========");
+            Console.WriteLine($" Course Code is :{code}");
+            Console.WriteLine($" Course Name is :{courseName}");
+
         }
     }
 }
