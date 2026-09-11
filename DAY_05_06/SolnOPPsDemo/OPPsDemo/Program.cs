@@ -6,9 +6,9 @@ namespace OPPsDemo
     {
         static void Main(string[] args)
         {
-           //Declarations
-           //
-           
+            //Declarations
+            //
+
             string inputVar;
             string vName;
             int vAge;
@@ -26,8 +26,21 @@ namespace OPPsDemo
 
             // Display Student record
 
-            Console.WriteLine($"Student 1 name is: {stu1.Name}");
-            Console.WriteLine($"Student 1 age is: {stu1.Age}");
+            //Console.WriteLine($"Student 1 name is: {stu1.Name}");
+            //Console.WriteLine($"Student 1 age is: {stu1.Age}");
+
+            stu1.DisplayStudentRecord();
+
+
+            // demo updation of records
+            Console.WriteLine($"Update student records");
+
+            stu1.UpdateStudentRecord();
+
+            Console.WriteLine($"Display records after updation");
+            stu1.DisplayStudentRecord();
+
+
         }
     }
 }

@@ -37,21 +37,51 @@ namespace OPPsDemo
             }
             set
             {                    // writing private data member
-                _age = value;
+
+                // validation checks 
+
+                if (value < 1 || value >= 120)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Age should be between 1 and 120");
+                }
+                else {
+                    _age = value;
+                }
+
             }
-            // Methods - define the behaviour
+
         }
 
 
         // constructor
 
-        public Student( string name, int age )
+        public Student(string name, int age)
         {
             Name = name;
             Age = age;
         }
 
 
+        // Methods - define the behaviour
+
+        public void DisplayStudentRecord()
+            {
+            Console.WriteLine($"Student 1 name is: {Name}");
+            Console.WriteLine($"Student 1 age is: {Age}");
+
+        }
+
+        // update student record
+
+        public void UpdateStudentRecord()
+        {
+            Console.WriteLine($"Enter name to be updated");
+            string vName = Console.ReadLine();
+
+            Name = vName; 
+            
+
+        }
     }
 
 
