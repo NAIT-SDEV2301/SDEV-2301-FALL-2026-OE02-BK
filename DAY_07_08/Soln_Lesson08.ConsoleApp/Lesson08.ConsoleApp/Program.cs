@@ -72,6 +72,12 @@
 
     }
 
+    // TODO: Create a Rectangle class that inherits from Shape
+    // - Add properties Length and Width (double)
+    // - Add a constructor that takes color, length, width and calls base(color)
+    // - Override GetArea() to return length * width
+    // - Override Describe() to print "This is a {Color} rectangle {Length} x {Width}."
+
     // Derived class: Rectangle
     public class Rectangle : Shape
     {
@@ -93,11 +99,7 @@
     }
 
 
-    // TODO: Create a Rectangle class that inherits from Shape
-    // - Add properties Length and Width (double)
-    // - Add a constructor that takes color, length, width and calls base(color)
-    // - Override GetArea() to return length * width
-    // - Override Describe() to print "This is a {Color} rectangle {Length} x {Width}."
+
 
 
     // TODO: Create an Engine class with a Start() method that prints "Engine starting..."
@@ -105,6 +107,52 @@
     // TODO: Create a Car class that uses composition
     // - It should "have an" Engine (create an Engine field/property)
     // - Add a Drive() method that calls Engine.Start() and prints "The car is driving..."
+
+
+
+    // TODO: Create an Engine class with a Start() method that prints "Engine starting..."
+
+    public class Engine
+    {
+        public void Start()
+        {
+            Console.WriteLine("Engine starting...");
+        }
+
+        //public void Start() => Console.WriteLine("Engine starting...");
+
+
+    }
+
+    // TODO: Create a Car class that uses composition
+    // - It should "have an" Engine (create an Engine field/property)
+    // - Add a Drive() method that calls Engine.Start() and prints "The car is driving..."
+
+    public class Car
+    {
+        public Engine Engine { get; set; }
+
+        public Car()
+        {
+            Engine = new Engine();
+        }
+
+        public void Drive()
+        {
+            Engine.Start();
+            Console.WriteLine("The car is driving...");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     public class InheritanceDemo_Guided
@@ -116,8 +164,36 @@
             // TODO: Create a List<Shape> with one Circle and one Rectangle
             // - Use polymorphism to loop through and call Describe() and GetArea() on each
 
+            // lets create a simple circle object 
+
+            Circle C1 = new("Red", 5);
+
+            C1.GetArea();
+            C1.Describe();
+
+
+
+            // Polymorphism in action
+            List<Shape> shapes = new List<Shape>
+        {
+            new Circle("Red", 5),
+            new Rectangle("Blue", 4, 6)
+        };
+
+            foreach (var shape in shapes)
+            {
+                shape.Describe();
+                Console.WriteLine($"Area = {shape.GetArea():F2}");
+                Console.WriteLine();
+            }
 
             Console.WriteLine("=== Composition Example ===");
+            var car = new Car();
+            car.Drive();
+
+
+
+            
 
             // TODO: Create a Car object and call Drive()
         }
