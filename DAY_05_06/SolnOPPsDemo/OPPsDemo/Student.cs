@@ -66,7 +66,7 @@ namespace OPPsDemo
 
         public void DisplayStudentRecord()
             {
-            Console.WriteLine($"Student 1 name is: {Name}");
+            Console.WriteLine($"Student 1 name is: {_name}");
             Console.WriteLine($"Student 1 age is: {Age}");
 
         }
