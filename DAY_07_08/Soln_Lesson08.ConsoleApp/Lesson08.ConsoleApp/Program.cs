@@ -40,29 +40,6 @@
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // TODO: Create a Circle class that inherits from Shape
     // - Add a property Radius (double)
     // - Add a constructor that takes color and radius, and calls base(color)
@@ -70,18 +47,64 @@
     // - Override Describe() to print "This is a {Color} circle with radius {Radius}."
 
 
-        // TODO: Create a Rectangle class that inherits from Shape
-        // - Add properties Length and Width (double)
-        // - Add a constructor that takes color, length, width and calls base(color)
-        // - Override GetArea() to return length * width
-        // - Override Describe() to print "This is a {Color} rectangle {Length} x {Width}."
+
+    // TODO: Create a Circle class that inherits from Shape
+
+    public class Circle : Shape
+    {
+        public double Radius { get; set; }
+
+        public Circle(string color, double radius) : base(color)
+        {
+            Radius = radius;
+        }
+
+        public override double GetArea()
+        {
+            return Math.PI * Radius * Radius;
+        }
+
+        public virtual void Describe()
+        {
+            Console.WriteLine($"This is a {Color} circle with radius {Radius}.");
+
+        }
+
+    }
+
+    // Derived class: Rectangle
+    public class Rectangle : Shape
+    {
+        public double Length { get; set; }
+        public double Width { get; set; }
+
+        public Rectangle(string color, double length, double width) : base(color)
+        {
+            Length = length;
+            Width = width;
+        }
+
+        public override double GetArea() => Length * Width;
+
+        public override void Describe()
+        {
+            Console.WriteLine($"This is a {Color} rectangle {Length} x {Width}.");
+        }
+    }
 
 
-        // TODO: Create an Engine class with a Start() method that prints "Engine starting..."
+    // TODO: Create a Rectangle class that inherits from Shape
+    // - Add properties Length and Width (double)
+    // - Add a constructor that takes color, length, width and calls base(color)
+    // - Override GetArea() to return length * width
+    // - Override Describe() to print "This is a {Color} rectangle {Length} x {Width}."
 
-        // TODO: Create a Car class that uses composition
-        // - It should "have an" Engine (create an Engine field/property)
-        // - Add a Drive() method that calls Engine.Start() and prints "The car is driving..."
+
+    // TODO: Create an Engine class with a Start() method that prints "Engine starting..."
+
+    // TODO: Create a Car class that uses composition
+    // - It should "have an" Engine (create an Engine field/property)
+    // - Add a Drive() method that calls Engine.Start() and prints "The car is driving..."
 
 
     public class InheritanceDemo_Guided
