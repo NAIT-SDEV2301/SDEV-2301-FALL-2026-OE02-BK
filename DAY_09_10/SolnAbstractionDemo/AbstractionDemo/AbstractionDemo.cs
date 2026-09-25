@@ -76,6 +76,8 @@
         public static void Main()
         {
             Console.WriteLine("=== Abstract Classes Example ===");
+            Dog d1 = new Dog("abc");
+            Cat c1 = new Cat("xyz");
 
             Animal dog = new Dog("Buddy");
             Animal cat = new Cat("Whiskers");

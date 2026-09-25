@@ -28,7 +28,7 @@
 
         // - Add an abstract method GetArea() that returns double
 
-        public abstract double GetArea(); // implementation details are added by derived classes
+        //public abstract double GetArea(); // implementation details are added by derived classes
 
         // - Add a virtual method Describe() that prints "This is a {Color} shape."
 
@@ -90,7 +90,7 @@
             Width = width;
         }
 
-        public override double GetArea() => Length * Width;
+        public double GetArea() => Length * Width;
 
         public override void Describe()
         {
@@ -168,7 +168,7 @@
 
             Circle C1 = new("Red", 5);
 
-            C1.GetArea();
+          //  C1.GetArea();
             C1.Describe();
 
 
@@ -183,7 +183,7 @@
             foreach (var shape in shapes)
             {
                 shape.Describe();
-                Console.WriteLine($"Area = {shape.GetArea():F2}");
+               // Console.WriteLine($"Area = {shape.GetArea():F2}");
                 Console.WriteLine();
             }
 
