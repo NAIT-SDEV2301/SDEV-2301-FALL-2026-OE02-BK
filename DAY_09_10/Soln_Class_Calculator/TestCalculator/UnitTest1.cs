@@ -76,6 +76,35 @@ namespace TestCalculator
         }
 
         // OPTIONAL: Convert simple cases to a Theory with InlineData
+        [Theory]
+        [InlineData(1,58,59)]
+        [InlineData(-1, 58, 57)]
+        [InlineData(101, 58, 159)]
+        public void Add_Theory_Checks_Correct_Sum(int a, int b, int expectedOutput)
+        {
+            //arrange
+
+            //act
+            var result = _calculator.Add(a, b);
+            
+            //assert
+            Assert.Equal(expectedOutput, result);
+        }
+
+        [Theory]
+        [InlineData(1,58, -57)]
+        [InlineData(58, 1, 57)]
+        public void Subtract_Theory_Checks_Correct_Difference(int a, int b, int expectedOutput)
+        {
+            //arrange
+
+            //act
+            var result = _calculator.Subtract(a, b);
+
+            //assert
+            Assert.Equal(expectedOutput, result);
+        }
+
         // [Theory]
         // [InlineData(2, 3, 5)]
         // [InlineData(-1, 1, 0)]
