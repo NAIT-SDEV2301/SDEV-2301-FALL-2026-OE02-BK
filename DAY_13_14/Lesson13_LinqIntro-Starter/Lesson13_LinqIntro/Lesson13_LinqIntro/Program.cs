@@ -49,12 +49,35 @@ Console.WriteLine($"Pokémon ready: {pokedex.Count}");
 #region Warm-up - slide 4
 // TODO: Follow the warm-up instructions on the slide.
 
+var passingLoop = new List<Student> ();
+
+foreach (var stu in students)
+{
+    //Console.WriteLine($" Name of student is {stu.Name}");
+    if (stu.Mark >= 70)
+    {
+       // Console.WriteLine($" Marks of student {stu.Name} is {stu.Mark} ");
+        passingLoop.Add(stu);
+    }
+}
+
+foreach (var stu in passingLoop)
+{
+    Console.WriteLine($" Marks of student {stu.Name} is {stu.Mark} ");
+}
+
 
 #endregion
 
 #region Where - slide 8
 // TODO: Write your filtering queries and print the results.
 // Predicted result type:
+//IEnumerable<Student> linqStuPassing =  students.Where(stu => stu.Mark >= 70);
+IEnumerable <Student> linqStuPassing = students.Where(stu => stu.Mark >= 70);
+foreach (var stu in linqStuPassing)
+{
+    Console.WriteLine($" Linq bMarks of student {stu.Name} is {stu.Mark} ");
+}
 
 
 #endregion
@@ -62,6 +85,13 @@ Console.WriteLine($"Pokémon ready: {pokedex.Count}");
 #region Select - slide 11
 // TODO: Write your names, marks, and labels queries.
 // Predicted result type for each query:
+var names = students.Select(stu => stu.Name);
+
+foreach (var name in names)
+{ 
+    Console.WriteLine($" Linq select Name of student is {name} "); 
+}
+
 
 
 #endregion
@@ -69,6 +99,17 @@ Console.WriteLine($"Pokémon ready: {pokedex.Count}");
 #region Student chains - slide 14
 // TODO: Complete the student-query challenge.
 // Predicted result type for each query:
+
+var names1 = students.Where(stu => stu.Mark >= 70)
+       .OrderBy(stu => stu.Mark)
+       .Select(stu => stu.Name);
+    
+        
+
+foreach (var name in names1)
+{
+    Console.WriteLine($" Linq select Name1 of student is {name} ");
+}
 
 
 #endregion
