@@ -1,0 +1,11 @@
+# Build output and local IDE settings
+**/bin/
+**/obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.DS_Store
+Thumbs.db
