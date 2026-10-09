@@ -1,3 +1,4 @@
+using Lesson13_LinqIntro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,15 @@ var students = new List<Student>
     new Student("Mei", 59)
 };
 
+var products = new List<Product>
+{
+    new Product("Notebook", 4.99m, "School"),
+    new Product("Mouse", 19.99m, "Tech"),
+    new Product("Headphones", 79.99m, "Tech"),
+    new Product("Granola Bars", 6.49m, "Food"),
+    new Product("Water Bottle", 14.99m, "School")
+
+};
 // Exact 20-entry dataset from the linked Pokemon worksheet.
 var pokedex = new List<Pokemon>
 {
@@ -79,6 +89,15 @@ foreach (var stu in linqStuPassing)
     Console.WriteLine($" Linq bMarks of student {stu.Name} is {stu.Mark} ");
 }
 
+// where clause on products
+
+//var priceLessThan20 = products.Where(prd => prd.Price <= 20);
+IEnumerable <Product> priceLessThan20 = products.Where(prd => prd.Price <= 20);
+
+foreach( var prd in priceLessThan20)
+{
+    Console.WriteLine($" Linq output Product with price less than 20 : {prd.Name} ");
+}
 
 #endregion
 
@@ -92,8 +111,10 @@ foreach (var name in names)
     Console.WriteLine($" Linq select Name of student is {name} "); 
 }
 
+// projection on products
 
-
+//var selectedProductName = products.Select(prd => prd.Name);
+IEnumerable <string> selectedProductName = products.Select(prd => prd.Name);
 #endregion
 
 #region Student chains - slide 14
@@ -110,7 +131,16 @@ foreach (var name in names1)
 {
     Console.WriteLine($" Linq select Name1 of student is {name} ");
 }
+// chaining on product
 
+var nameofProducts = products.Where(p => p.Price >= 10)
+       .OrderBy(p => p.Price)
+       .Select(p => p.Name);
+
+foreach( var pname in nameofProducts)
+{
+    Console.WriteLine($" Product with price greater than 10$ : {pname}");
+}
 
 #endregion
 
