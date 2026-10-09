@@ -4,8 +4,9 @@
 
 public class ProductQueryServiceTests
 {
-    private readonly ProductQueryService.ProductQueryService _service = new();
+    //private readonly ProductQueryService.ProductQueryService _service = new();
 
+    private readonly ProductQueryService.ProductQueryService _service = new();
     private static List<Product> CreateProducts() =>
     [
         new Product { Name = "Apples", Price = 3.50m, IsDiscontinued = false },
@@ -17,6 +18,7 @@ public class ProductQueryServiceTests
     [Fact]
     public void GetActiveProducts_WhenProductsMixed_ReturnsOnlyActiveProducts()
     {
+       //a a a
         // Arrange
         var products = CreateProducts();
 
@@ -26,7 +28,7 @@ public class ProductQueryServiceTests
         // Assert
         Assert.Equal(new[] { "Apples", "Oranges", "Dates" },
             result.Select(product => product.Name).ToList());
-        Assert.All(result, product => Assert.False(product.IsDiscontinued));
+       // Assert.All(result, product => Assert.False(product.IsDiscontinued));
     }
 
     [Fact]

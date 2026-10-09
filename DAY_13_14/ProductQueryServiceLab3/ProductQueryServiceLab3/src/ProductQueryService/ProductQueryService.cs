@@ -30,4 +30,7 @@ public class ProductQueryService
             .Select(product => (product.Name, product.Price))
             .ToList();
     }
+
+    // adding your methods
+
 }
