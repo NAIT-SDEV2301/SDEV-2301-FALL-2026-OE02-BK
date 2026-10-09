@@ -2,6 +2,7 @@ using Lesson13_LinqIntro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 // SUPPLIED DATA: leave these lists unchanged during the activities.
 //
@@ -133,13 +134,48 @@ foreach (var name in names1)
 }
 // chaining on product
 
-var nameofProducts = products.Where(p => p.Price >= 10)
-       .OrderBy(p => p.Price)
-       .Select(p => p.Name);
+//var nameofProducts = products.Where(p => p.Price >= 10)
+//       .OrderByDescending(p => p.Price)
+//       .Select(p => p.Name);
 
-foreach( var pname in nameofProducts)
+// Explicit OrderBy
+
+
+var nameofProducts = products.OrderBy(p => p.Price);
+       
+
+foreach ( var pname in nameofProducts)
 {
-    Console.WriteLine($" Product with price greater than 10$ : {pname}");
+    Console.WriteLine($" Product with price greater than 10$ : {pname.Name} and {pname.Price}");
+}
+
+#endregion
+
+#region Aggregation on product
+
+// Example of sorting at multiple levels
+
+var byCategoryThenName = products.OrderBy(p => p.Category)
+                                .ThenBy(p => p.Name);
+
+foreach(var prd in byCategoryThenName)
+{
+    Console.WriteLine($" Products ordered by category  : {prd.Category}");
+    Console.WriteLine($" Products ordered by name : {prd.Name} ");
+}
+
+
+// group by
+
+var groups = products.GroupBy(p => p.Category);
+
+foreach (var grp in groups)
+{
+    Console.WriteLine($" group by Products ordered by category  : {grp.Key}");
+    foreach (var prd in grp)
+    {
+        Console.WriteLine($" Products by name : {prd.Name} ");
+    }
 }
 
 #endregion
