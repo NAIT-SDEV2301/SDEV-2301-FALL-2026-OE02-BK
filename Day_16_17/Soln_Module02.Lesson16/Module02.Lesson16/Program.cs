@@ -101,15 +101,18 @@
                 // 1) CREATE -------------------------------------------------------
                 var course = new Course { Code = "SDEV2301", Name = "Enterprise App Dev", Credits = 3 };
                 context.Courses.Add(course);
-                context.Courses.AddRange(
-                    new Course { Code = "SDEV2201", Name = "Frontend ", Credits = 3 },
-                    new Course { Code = "SDEV2200", Name = "Backend ", Credits = 5 }
-                    );
+                var course1 = new Course
+                {
+                    Code = "SDEV2200",
+                    Name = "Backend ",
+                    Credits = 5
+                };
 
                 context.Students.AddRange(
                     new Student { Name = "Alice", Age = 20, Course = course },
                     new Student { Name = "Bob", Age = 22, Course = course },
-                    new Student { Name = "Cara", Age = 19, Course = course }
+                    new Student { Name = "Cara", Age = 19, Course = course },
+                    new Student { Name = "Baljeet", Age = 20, Course = course1 }
                 );
 
                 context.SaveChanges();
@@ -124,7 +127,7 @@
                 Console.WriteLine("\nAll Students in Database:");
                 foreach (var s in students)
                 {
-                    Console.WriteLine($"student ID={s.Id}, S Name={s.Name}, Age={s.Age}");
+                    Console.WriteLine($"student ID={s.Id}, S Name={s.Name}, Age={s.Age}, course ={s.Course.Code}");
                 }
 
                 // query course 
@@ -137,6 +140,43 @@
                 {
                     Console.WriteLine($"course ID={c.Id}, C Name={c.Name}, credit = {c.Credits}");
                 }
+
+
+                // 2) READ (with relationship) ------------------------------------
+                var loadedCourse = context.Courses
+                    .Include(c => c.Students)
+                    .Single(c => c.Code == "SDEV2301");
+
+                Console.WriteLine($"\nREAD: {loadedCourse.Code} - {loadedCourse.Name} ({loadedCourse.Credits} credits)");
+                foreach (var s in loadedCourse.Students)
+                    Console.WriteLine($" - Student #{s.Id}: {s.Name} (Age {s.Age})");
+
+                // 3) UPDATE (entity + child) -------------------------------------
+                loadedCourse.Credits = 4; // update parent
+                var bob = loadedCourse.Students.Single(s => s.Name == "Bob");
+                bob.Age = 23;             // update child
+                context.SaveChanges();
+                Console.WriteLine("\nUPDATE: Course credits -> 4; Bob's age -> 23");
+
+                // Show updated state
+                var check = context.Courses.Include(c => c.Students).Single(c => c.Id == loadedCourse.Id);
+                //Console.WriteLine($"Confirm: {check.Code} now {check.Credits} credits; Bob age = {check.Students.Single(s => s.Name == \"Bob\").Age}");
+                Console.WriteLine($"Confirm: {check.Code} now {check.Credits} credits;");
+                // 4) DELETE (child or parent) ------------------------------------
+                // Delete one student
+                var cara = check.Students.Single(s => s.Name == "Cara");
+                context.Students.Remove(cara);
+                context.SaveChanges();
+                Console.WriteLine("\nDELETE: Removed Cara.");
+
+                // Delete the course (cascade deletes remaining students)
+                context.Courses.Remove(check);
+                context.SaveChanges();
+                Console.WriteLine("DELETE: Removed course (cascade deleted remaining students).");
+
+                // 5) Verify empty -------------------------------------------------
+                Console.WriteLine($"\nCounts -> Courses: {context.Courses.Count()}, Students: {context.Students.Count()}");
+                Console.WriteLine("\nDemo complete.");
 
             }
         }
