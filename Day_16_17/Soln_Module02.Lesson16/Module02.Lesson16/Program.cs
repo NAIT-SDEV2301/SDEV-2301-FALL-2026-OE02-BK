@@ -24,13 +24,13 @@
         public class Student
         {
             public int Id { get; set; }        // Primary key by convention
-            public string Name { get; set; }
+            public string Name { get; set; } = "";
             public int Age { get; set; }
 
             // update student based on course entity
 
             public int CourseId { get; set; }   // FK 
-            public Course Course { get; set; } 
+            public Course? Course { get; set; } = null!;
         }
 
         // Todo : add course Entity
@@ -39,9 +39,9 @@
         {
             // properties become attributes of table
             public int Id { get; set; } // primary key for course
-            public string Code { get; set; }
-            public string Name { get; set; }
-            public int Credits { get; set; }
+            public string Code { get; set; } = "";
+            public string Name { get; set; } = "";
+            public int Credits { get; set; } = 3;
 
             /// // Navigation: one-to-many 
             public List<Student> Students { get; set; } = new(); // foreign key will be stored on dependent student row
@@ -52,21 +52,30 @@
         // 2) DbContext
         public class SchoolContext : DbContext // interact with database
         {
-            public DbSet<Student> Students { get; set; } /// collection of entity instances as table
-            public DbSet<Course> Courses {  get; set; }
+            public DbSet<Student> Students => Set<Student>(); /// collection of entity instances as table
+            public DbSet<Course> Courses => Set<Course>();
             // public DbSet<Program> Programs { get; set; } 
 
             // Configure database provider/connection
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) // helps you to configure EFcore
             {
                 // SQLite file for simplicity in a classroom setting
-                optionsBuilder.UseSqlite("Data Source=school.db");
+                optionsBuilder.UseSqlite("Data Source=school_student_course.db");
                 
             }
 
             // Optional: basic constraints // define your rules here.
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
+                modelBuilder.Entity<Course>(b =>
+                {
+                    b.Property(c => c.Code).IsRequired().HasMaxLength(20);
+                    b.Property(c => c.Name).IsRequired().HasMaxLength(100);
+                    b.HasMany(c => c.Students)
+                     .WithOne(s => s.Course!)
+                     .HasForeignKey(s => s.CourseId)
+                     .OnDelete(DeleteBehavior.Cascade);
+                });
                 modelBuilder.Entity<Student>()
                     .Property(s => s.Name)
                     .IsRequired()
@@ -79,33 +88,33 @@
         {
             public static void Main()
             {
-                Console.WriteLine("=== EF Core Setup Demo (Solution) ===");
+                Console.WriteLine("=== EF Core CRUD operations ===");
 
                 using var context = new SchoolContext(); // context variable give access of database to your application
 
                 // Ensure database and schema are created (for classroom demos)
+                //context.Database.EnsureCreated();
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                // Seed if empty
-                if (!context.Students.Any())
-                {
-                    context.Students.AddRange(
-                        new Student { Name = "Alice", Age = 20 },
-                        new Student { Name = "Bob", Age = 22 },
-                        new Student { Name = "Charlie", Age = 19 }
+
+                // 1) CREATE -------------------------------------------------------
+                var course = new Course { Code = "SDEV2301", Name = "Enterprise App Dev", Credits = 3 };
+                context.Courses.Add(course);
+                context.Courses.AddRange(
+                    new Course { Code = "SDEV2201", Name = "Frontend ", Credits = 3 },
+                    new Course { Code = "SDEV2200", Name = "Backend ", Credits = 5 }
                     );
-                    context.SaveChanges();
-                    Console.WriteLine("Database seeded with sample students.");
-                }
 
-                // seed value for courses
+                context.Students.AddRange(
+                    new Student { Name = "Alice", Age = 20, Course = course },
+                    new Student { Name = "Bob", Age = 22, Course = course },
+                    new Student { Name = "Cara", Age = 19, Course = course }
+                );
 
-                if (!context.Courses.Any())
-                {
-                    var course = new Course { Code = "SDEV", Name = "SMIT", Credits = 3 };
-                    course.Students.Add(new Student { Name = "Baljeet", Age=20 });
-                    course.Students.Add(new Student { Name = "Alex", Age = 22 });
-                }
+                context.SaveChanges();
+                Console.WriteLine("Created course + 3 students.");
+
 
                 // Query
                 List<Student> students = context.Students
@@ -115,8 +124,20 @@
                 Console.WriteLine("\nAll Students in Database:");
                 foreach (var s in students)
                 {
-                    Console.WriteLine($"ID={s.Id}, Name={s.Name}, Age={s.Age}");
+                    Console.WriteLine($"student ID={s.Id}, S Name={s.Name}, Age={s.Age}");
                 }
+
+                // query course 
+                List<Course> courses = context.Courses
+                                                .OrderBy(s => s.Id)
+                                                .ToList();
+
+                Console.WriteLine("\nAll Courses in Database:");
+                foreach (var c in courses)
+                {
+                    Console.WriteLine($"course ID={c.Id}, C Name={c.Name}, credit = {c.Credits}");
+                }
+
             }
         }
     }
