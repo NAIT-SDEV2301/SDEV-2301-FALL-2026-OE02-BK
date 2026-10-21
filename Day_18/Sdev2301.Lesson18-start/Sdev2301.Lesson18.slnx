@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Sdev2301.Lesson18.App/Sdev2301.Lesson18.App.csproj" />
+  <Project Path="Sdev2301.Lesson18.Core/Sdev2301.Lesson18.Core.csproj" />
+  <Project Path="Sdev2301.Lesson18.Tests/Sdev2301.Lesson18.Tests.csproj" />
+</Solution>
