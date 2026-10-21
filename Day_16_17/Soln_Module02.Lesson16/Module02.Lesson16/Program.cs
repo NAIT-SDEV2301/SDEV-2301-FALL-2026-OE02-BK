@@ -20,27 +20,51 @@
 
     namespace EfCoreSetupDemo
     {
-        // 1) Entity
+        // 1) Entity // schema of your table
         public class Student
         {
             public int Id { get; set; }        // Primary key by convention
             public string Name { get; set; }
             public int Age { get; set; }
+
+            // update student based on course entity
+
+            public int CourseId { get; set; }   // FK 
+            public Course Course { get; set; } 
         }
 
-        // 2) DbContext
-        public class SchoolContext : DbContext
+        // Todo : add course Entity
+
+        public class Course
         {
-            public DbSet<Student> Students { get; set; }
+            // properties become attributes of table
+            public int Id { get; set; } // primary key for course
+            public string Code { get; set; }
+            public string Name { get; set; }
+            public int Credits { get; set; }
+
+            /// // Navigation: one-to-many 
+            public List<Student> Students { get; set; } = new(); // foreign key will be stored on dependent student row
+
+        }
+
+
+        // 2) DbContext
+        public class SchoolContext : DbContext // interact with database
+        {
+            public DbSet<Student> Students { get; set; } /// collection of entity instances as table
+            public DbSet<Course> Courses {  get; set; }
+            // public DbSet<Program> Programs { get; set; } 
 
             // Configure database provider/connection
-            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) // helps you to configure EFcore
             {
                 // SQLite file for simplicity in a classroom setting
                 optionsBuilder.UseSqlite("Data Source=school.db");
+                
             }
 
-            // Optional: basic constraints
+            // Optional: basic constraints // define your rules here.
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
                 modelBuilder.Entity<Student>()
@@ -57,7 +81,7 @@
             {
                 Console.WriteLine("=== EF Core Setup Demo (Solution) ===");
 
-                using var context = new SchoolContext();
+                using var context = new SchoolContext(); // context variable give access of database to your application
 
                 // Ensure database and schema are created (for classroom demos)
                 context.Database.EnsureCreated();
@@ -72,6 +96,15 @@
                     );
                     context.SaveChanges();
                     Console.WriteLine("Database seeded with sample students.");
+                }
+
+                // seed value for courses
+
+                if (!context.Courses.Any())
+                {
+                    var course = new Course { Code = "SDEV", Name = "SMIT", Credits = 3 };
+                    course.Students.Add(new Student { Name = "Baljeet", Age=20 });
+                    course.Students.Add(new Student { Name = "Alex", Age = 22 });
                 }
 
                 // Query
