@@ -8,6 +8,9 @@
 <button class="btn btn-primary mt-2" @onclick="SelectProduct">
     Select
 </button>
+<button class="btn btn-outline-danger mt-2 ms-2" @onclick="RemoveProduct">
+    Remove
+</button>
 @code {
 
     [Parameter]
@@ -16,10 +19,17 @@
     [Parameter]
     public EventCallback<Product> OnSelected { get; set; }
 
+    [Parameter]
+    public EventCallback<Product> OnRemove { get; set; }
+
     private Task SelectProduct()
     {
         return OnSelected.InvokeAsync(Item);
     }
 
-    
+    private Task RemoveProduct()
+    {
+        return OnRemove.InvokeAsync(Item);
+    }
+
 }

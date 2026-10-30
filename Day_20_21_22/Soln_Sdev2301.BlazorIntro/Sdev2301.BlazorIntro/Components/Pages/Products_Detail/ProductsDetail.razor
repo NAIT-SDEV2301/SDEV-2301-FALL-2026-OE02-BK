@@ -60,7 +60,8 @@
 @foreach (var product in Products)
 {
     <ProductCard Item="@product" 
-                 OnSelected="HandleProductSelected" />
+                 OnSelected="HandleProductSelected" 
+                 OnRemove="HandleProductRemoved" />
     
 }
 
@@ -116,6 +117,11 @@
     private void HandleProductSelected(Product product)
     {
         _selectedProduct = product;
+    }
+
+    private void HandleProductRemoved(Product product)
+    {
+        Products.Remove(product);
     }
 
 
