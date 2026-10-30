@@ -1,0 +1,130 @@
+﻿@page "/products"
+@layout ProductLayout
+
+<!-- can write your HTML code for UI  -->
+
+<PageTitle>Products</PageTitle>
+
+<h1>Products</h1>
+
+<p>The number of Products in the project are : @Products.Count </p>
+
+  <div class="mb-3">
+    <label class="form-label" for="productName">New product name</label>
+    <input id="productName" class="form-control" @bind=NewProductName />
+</div>
+
+<p>  Testing the new product name : @NewProductName</p>
+  <button @onclick ="AddProduct">
+    Add Sample Product
+</button>
+
+@* 
+<button @onclick="DeleteProduct">
+   Delete Product
+</button> *@
+
+@* <table class="table"
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- add -->
+      
+        
+        @foreach (var product in Products) 
+        {
+            <tr>
+                <td>@product.Sku</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.IsActive</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+
+@if (_selectedProduct is not null)
+{
+    <div class="alert alert-info">
+        Selected: @_selectedProduct.Name
+    </div>
+}
+
+@foreach (var product in Products)
+{
+    <ProductCard Item="@product" 
+                 OnSelected="HandleProductSelected" />
+    
+}
+
+
+
+
+
+
+@code {
+
+    // to bind HTML input with c# code , define variable here
+
+    private string NewProductName {get; set;} = string.Empty;
+
+    private Product _selectedProduct;
+
+    // you can write your c# code to interact with user activity, consume services and apply CRUD operations 
+    // all declaration must be done in begining
+    private List<Product> Products =
+    [
+       new() { Id = 1, Sku = "KEY-100", Name = "Keyboard", Price = 49.99m, IsActive = true },
+        new() { Id = 2, Sku = "MOU-200", Name = "Mouse", Price = 24.99m, IsActive = true }
+    ];
+
+    // private class Product
+    // {
+    //     public int Id { get; set; }
+    //     public string Sku { get; set; } = string.Empty;
+    //     public string Name { get; set; } = string.Empty;
+    //     public decimal Price { get; set; }
+    //     public bool IsActive { get; set; }
+    // }
+
+
+    // you can add your methods here
+
+    private void AddProduct()
+    {
+        var nextNumber = Products.Count + 1;
+
+        Products.Add(new Product
+    {
+        Id = nextNumber,
+        Sku = $"NEW-{nextNumber:000}",
+        Name = NewProductName.Trim(),
+        Price = 9.99m,
+        IsActive = true
+    });
+    }
+
+    // add event handler
+
+    private void HandleProductSelected(Product product)
+    {
+        _selectedProduct = product;
+    }
+
+
+
+
+
+    // private void DeleteProduct()
+    // {
+        
+    // }
+
+}

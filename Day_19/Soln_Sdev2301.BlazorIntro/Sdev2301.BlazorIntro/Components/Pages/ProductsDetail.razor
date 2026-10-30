@@ -1,4 +1,5 @@
-﻿@page "/products"
+﻿@layout ProductLayout
+@page "/products"
 <h3>Products</h3>
 
 <p> you can add a HTML table to display PRoducts</p>
@@ -8,10 +9,11 @@
 
 <h1>Products</h1>
 <!--
-  <p>There are @Products.Count products.</p>
+
   we will explore it later
 
   -->
+<p>There are @Products.Count products.</p>
   <div class="mb-3">
     <label class="form-label" for="productName">New product name</label>
     <input id="productName" class="form-control" @bind=NewProductName />
@@ -20,6 +22,11 @@
 <p>  Testing the new product name : @NewProductName</p>
   <button @onclick ="AddProduct">
     Add Sample Product
+</button>
+
+
+<button @onclick="DeleteProduct">
+   Delete Product
 </button>
 
 <table class="table"
@@ -47,7 +54,10 @@
     </tbody>
 </table>
 
-
+<ProductCard Sku="TEST-001"
+             Name="Test Product"
+             Price="19.99m"
+             IsActive="true" />
 
 @code {
 
@@ -56,30 +66,30 @@
     private string NewProductName {get; set;} = string.Empty;
 
     // you can write your c# code to interact with user activity, consume services and apply CRUD operations 
-// all declaration must be done in begining
-     private List<Product> Products =
+    // all declaration must be done in begining
+    private List<Product> Products =
     [
-        new() { Id = 1, Sku = "KEY-100", Name = "Keyboard", Price = 49.99m, IsActive = true },
+       new() { Id = 1, Sku = "KEY-100", Name = "Keyboard", Price = 49.99m, IsActive = true },
         new() { Id = 2, Sku = "MOU-200", Name = "Mouse", Price = 24.99m, IsActive = true }
     ];
 
-    private class Product
-    {
-        public int Id { get; set; }
-        public string Sku { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
-        public bool IsActive { get; set; }
-    }
+    // private class Product
+    // {
+    //     public int Id { get; set; }
+    //     public string Sku { get; set; } = string.Empty;
+    //     public string Name { get; set; } = string.Empty;
+    //     public decimal Price { get; set; }
+    //     public bool IsActive { get; set; }
+    // }
 
 
     // you can add your methods here
 
     private void AddProduct()
-{
-    var nextNumber = Products.Count + 1;
+    {
+        var nextNumber = Products.Count + 1;
 
-    Products.Add(new Product
+        Products.Add(new Product
     {
         Id = nextNumber,
         Sku = $"NEW-{nextNumber:000}",
@@ -87,6 +97,10 @@
         Price = 9.99m,
         IsActive = true
     });
-}
+    }
+    private void DeleteProduct()
+    {
+        
+    }
 
 }

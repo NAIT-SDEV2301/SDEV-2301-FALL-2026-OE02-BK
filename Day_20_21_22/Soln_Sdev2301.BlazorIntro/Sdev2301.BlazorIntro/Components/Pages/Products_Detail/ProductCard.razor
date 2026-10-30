@@ -1,0 +1,25 @@
+﻿<h3>ProductCard</h3>
+<div class="card p-3 mb-3">
+    <h4>@Item.Name</h4>
+    <p class="mb-1"><strong>SKU:</strong> @Item.Sku</p>
+    <p class="mb-1"><strong>Price:</strong> @Item.Price.ToString("C")</p>
+    <p class="mb-0"><strong>Status:</strong> @(Item.IsActive ? "Active" : "Inactive")</p>
+</div>
+<button class="btn btn-primary mt-2" @onclick="SelectProduct">
+    Select
+</button>
+@code {
+
+    [Parameter]
+    public Product Item  { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Product> OnSelected { get; set; }
+
+    private Task SelectProduct()
+    {
+        return OnSelected.InvokeAsync(Item);
+    }
+
+    
+}
