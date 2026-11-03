@@ -1,0 +1,20 @@
+﻿@page "/about"
+@page "/about-us"
+@inject NavigationManager Navigation
+
+<PageTitle>About</PageTitle>
+
+<h1>About</h1>
+
+<p>This page was reached through the /about route.</p>
+
+<button class="btn btn-primary" @onclick="GoToProducts">
+    Go to Products
+</button>
+
+@code {
+    private void GoToProducts()
+    {
+        Navigation.NavigateTo("/products");
+    }
+}

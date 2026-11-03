@@ -65,7 +65,10 @@
     
 }
 
-
+@* <a class="btn btn-outline-primary"
+   href="@($"/products/{product.Id}")">
+    Details
+</a> *@
 
 
 
@@ -76,7 +79,7 @@
 
     private string NewProductName {get; set;} = string.Empty;
 
-    private Product _selectedProduct;
+    private Product _selectedProduct= new();
 
     // you can write your c# code to interact with user activity, consume services and apply CRUD operations 
     // all declaration must be done in begining

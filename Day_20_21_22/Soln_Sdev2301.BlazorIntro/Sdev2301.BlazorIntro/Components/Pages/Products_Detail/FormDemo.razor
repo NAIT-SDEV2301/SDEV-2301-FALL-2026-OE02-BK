@@ -1,0 +1,109 @@
+﻿@page "/form-demo"
+
+
+<PageTitle>Form Demo</PageTitle>
+
+<PageTitle>Product Form</PageTitle>
+
+<h1>Product Form</h1>
+
+@if (!string.IsNullOrWhiteSpace(_statusMessage))
+{
+    <div class="alert alert-success">
+        @_statusMessage
+    </div>
+}
+
+@if (_submittedProducts.Count == 0)
+{
+    <p>No products submitted yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in _submittedProducts)
+            {
+                <tr>
+                    <td>@product.Sku</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@(product.IsActive ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<EditForm Model="_model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">SKU</label>
+        <InputText class="form-control" @bind-Value="_model.Sku" />
+        <ValidationMessage For="@(() => _model.Sku)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText class="form-control" @bind-Value="_model.Name" />
+        <ValidationMessage For="@(() => _model.Name)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <InputNumber class="form-control" @bind-Value="_model.Price" />
+        <ValidationMessage For="@(() => _model.Price)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Stock Quantity</label>
+        <InputNumber class="form-control" @bind-Value="_model.StockQuantity" />
+        <ValidationMessage For="@(() => _model.StockQuantity)" />
+    </div>
+
+    <div class="form-check mb-3">
+        <InputCheckbox class="form-check-input"
+                       @bind-Value="_model.IsActive" />
+        <label class="form-check-label">Active</label>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private List<Product> _submittedProducts = [];
+
+    private ProductFormModel _model = new();
+
+    private string _statusMessage = string.Empty;
+
+    private async Task HandleValidSubmit()
+    {
+        var product = new Product
+        {
+            Id = _submittedProducts.Count + 1,
+            Sku = _model.Sku,
+            Name = _model.Name,
+            Price = _model.Price,
+            IsActive = _model.IsActive
+        };
+
+        _submittedProducts.Add(product);
+      
+        _statusMessage = $"Added {product.Name}.";
+
+        _model = new ProductFormModel();
+
+        ;
+    }
+}
