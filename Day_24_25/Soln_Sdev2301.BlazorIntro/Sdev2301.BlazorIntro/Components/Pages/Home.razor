@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject SingletonMarker SingletonA
+@inject SingletonMarker SingletonB
+
+@inject ScopedMarker ScopedA
+@inject ScopedMarker ScopedB
+
+@inject TransientMarker TransientA
+@inject TransientMarker TransientB
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<p>Singleton A = @SingletonA.InstanceId == SingletonB = @SingletonB.InstanceId</p>
+<p>Scoped A = @ScopedA.InstanceId == Scoped B = @ScopedB.InstanceId</p>
+<p>Transient A = @TransientA.InstanceId != Transient B =  @TransientB.InstanceId</p>

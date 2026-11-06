@@ -1,0 +1,55 @@
+﻿
+@inject ProductDisplayService ProductDisplayService
+
+<div class="card p-3 mb-3">
+    <h4>@Item.Name</h4>
+    <p class="mb-1"><strong>SKU:</strong> @Item.Sku</p>
+    <p class="mb-1"><strong>Price:</strong> @Item.Price.ToString("C")</p>
+    @* <p class="mb-0"><strong>Status:</strong> @(Item.IsActive ? "Active" : "Inactive")</p> *@
+
+    <p class="mb-0">
+        <strong>Status: </strong> @ProductDisplayService.GetStatus(Item)
+    </p>
+    <p>@ProductDisplayService.GetSummary(Item)</p>
+
+        @* <ProductStatus IsActive="@Item.IsActive"/> *@
+    <button class="btn btn-primary mt-2" @onclick="SelectProduct">
+        Select
+    </button>
+
+    <button class="btn btn-outline-danger mt-2 ms-2" @onclick="RemoveProduct">
+        Remove
+    </button>
+</div>
+
+@code {
+    // [Parameter]
+    // public string Sku { get; set; } = string.Empty;
+
+    // [Parameter]
+    // public string Name { get; set; } = string.Empty;
+
+    // [Parameter]
+    // public decimal Price { get; set; }
+
+    // [Parameter]
+    // public bool IsActive { get; set; }
+    [Parameter]
+    public Product Item { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Product> OnSelected { get; set; }
+
+    [Parameter]
+    public EventCallback<Product> OnRemove { get; set; }
+
+    private Task SelectProduct()
+    {
+        return OnSelected.InvokeAsync(Item);
+    }
+
+    private Task RemoveProduct()
+    {
+        return OnRemove.InvokeAsync(Item);
+    }
+}
