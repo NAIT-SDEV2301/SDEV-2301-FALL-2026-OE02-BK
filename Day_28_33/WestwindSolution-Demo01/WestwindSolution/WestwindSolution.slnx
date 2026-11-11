@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Westwind.BlazorApp/Westwind.BlazorApp.csproj" />
+  <Project Path="WestwindSystem/WestwindSystem.csproj" />
+</Solution>

@@ -1,0 +1,42 @@
+﻿@using WestwindSystem.Entities
+
+<EditForm Model="Shipper" OnValidSubmit="HandleSave">
+    <ValidationSummary />
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label>Company Name</label>
+        <InputText class="form-control" @bind-Value="Shipper.CompanyName" />
+        <ValidationMessage For="@(() => Shipper.CompanyName)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Phone</label>
+        <InputText class="form-control" @bind-Value="Shipper.Phone" />
+        <ValidationMessage For="@(() => Shipper.Phone)" />
+    </div>
+
+    <button class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Parameter] 
+    public Shipper Shipper { get; set; } = new();
+
+    [Parameter] 
+    public EventCallback<Shipper> OnSave { get; set; }
+
+    [Parameter] 
+    public EventCallback OnCancel { get; set; }
+
+    async Task HandleSave()
+    {
+        await OnSave.InvokeAsync(Shipper);
+    }
+
+    async Task Cancel()
+    {
+        await OnCancel.InvokeAsync();
+    }
+}

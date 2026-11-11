@@ -1,0 +1,30 @@
+﻿@using WestwindSystem.Entities
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shipper in Shippers)
+        {
+            <ShipperRow Shipper="shipper"
+                        OnEdit="OnEdit"
+                        OnDelete="OnDelete" />
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter] 
+    public List<Shipper> Shippers { get; set; } = new();
+
+    [Parameter] 
+    public EventCallback<Shipper> OnEdit { get; set; }
+
+    [Parameter] 
+    public EventCallback<Shipper> OnDelete { get; set; }
+}

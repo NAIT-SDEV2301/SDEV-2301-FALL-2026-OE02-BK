@@ -22,10 +22,13 @@ namespace Sdev2301.BlazorIntro_Services
             builder.Services.AddScoped<ScopedMarker>();
             builder.Services.AddTransient<TransientMarker>();
 
+            // Register Connection string
             var connectionString =
                 builder.Configuration.GetConnectionString("AppDbConnection")
                 ?? throw new InvalidOperationException(
                     "Connection string 'AppDbConnection' not found.");
+
+            // Register DBcontect with connectionstring 
             builder.Services.AddDbContextFactory<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);

@@ -1,0 +1,28 @@
+﻿@using WestwindSystem.Entities
+
+<tr>
+    <td>@Shipper.CompanyName</td>
+    <td>@Shipper.Phone</td>
+    <td>
+        <button class="btn btn-sm btn-warning"
+                @onclick="() => OnEdit.InvokeAsync(Shipper)">
+            Edit
+        </button>
+
+        <button class="btn btn-sm btn-danger"
+                @onclick="() => OnDelete.InvokeAsync(Shipper)">
+            Delete
+        </button>
+    </td>
+</tr>
+
+@code {
+    [Parameter] 
+    public Shipper Shipper { get; set; } = default!;
+
+    [Parameter] 
+    public EventCallback<Shipper> OnEdit { get; set; }
+
+    [Parameter] 
+    public EventCallback<Shipper> OnDelete { get; set; }
+}

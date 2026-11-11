@@ -1,5 +1,5 @@
 ﻿@page "/products"
-@layout ProductLayout
+@inject ProductDisplayService ProductDisplayService
 
 <!-- can write your HTML code for UI  -->
 
@@ -53,7 +53,7 @@
 @if (_selectedProduct is not null)
 {
     <div class="alert alert-info">
-        Selected: @_selectedProduct.Name
+        Selected: @ProductDisplayService.GetSummary(_selectedProduct)
     </div>
 }
 

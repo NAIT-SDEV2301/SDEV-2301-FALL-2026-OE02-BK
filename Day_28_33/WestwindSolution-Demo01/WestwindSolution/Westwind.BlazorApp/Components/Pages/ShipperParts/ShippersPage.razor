@@ -1,0 +1,75 @@
+﻿@page "/shippers"
+
+@using WestwindSystem.Entities
+@using WestwindSystem.BLL
+@inject ShipperServices ShipperServices
+@inject IJSRuntime JSRuntime
+
+<h3>Shippers</h3>
+
+<button class="btn btn-primary" @onclick="AddNew">Add Shipper</button>
+
+<ShipperList Shippers="Shippers"
+             OnEdit="EditShipper"
+             OnDelete="DeleteShipper" />
+
+
+@if (EditingShipper != null)
+{
+    <ShipperForm Shipper="EditingShipper"
+                 OnSave="SaveShipper"
+                 OnCancel="CancelEdit" />
+}
+
+@code {
+    private List<Shipper> Shippers = new();
+    private Shipper? EditingShipper;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Shippers = await ShipperServices.GetShippersAsync();
+    }
+
+    void AddNew()
+    {
+        EditingShipper = new Shipper();
+    }
+
+    void EditShipper(Shipper shipper)
+    {
+        EditingShipper = new Shipper
+        {
+            ShipperID = shipper.ShipperID,
+            CompanyName = shipper.CompanyName,
+            Phone = shipper.Phone
+        };
+    }
+
+    async Task SaveShipper(Shipper shipper)
+    {
+        if (shipper.ShipperID == 0)
+            await ShipperServices.AddShipperAsync(shipper);
+        else
+            await ShipperServices.UpdateShipperAsync(shipper);
+
+        Shippers = await ShipperServices.GetShippersAsync();
+        EditingShipper = null;
+    }
+
+    async Task DeleteShipper(Shipper shipper)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>(
+           "confirm", "Are you sure you want to delete this item?");
+        if (confirmed)
+        {
+            await ShipperServices.DeleteShipperAsync(shipper.ShipperID);
+            Shippers = await ShipperServices.GetShippersAsync();
+        }
+       
+    }
+
+    void CancelEdit()
+    {
+        EditingShipper = null;
+    }
+}
